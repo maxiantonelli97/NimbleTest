@@ -1,8 +1,10 @@
 package com.antonelli.nimble.di
 
 import com.antonelli.nimble.api.ApiService
-import com.antonelli.nimble.repository.LogInRespository
-import com.antonelli.nimble.repository.LogInRespositoryImp
+import com.antonelli.nimble.repository.HomeRepository
+import com.antonelli.nimble.repository.HomeRepositoryImp
+import com.antonelli.nimble.repository.LogInRepository
+import com.antonelli.nimble.repository.LogInRepositoryImp
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +19,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
-
     @Provides
     @Named("BaseUrl")
     fun provideBaseUrl() = "https://nimble-survey-web-mock.fly.dev/".toHttpUrl()
@@ -39,7 +40,12 @@ class AppModule {
     }
 
     @Provides
-    fun providesApiRepo(remoteService: ApiService): LogInRespository {
-        return LogInRespositoryImp(remoteService)
+    fun providesLoginRepo(remoteService: ApiService): LogInRepository {
+        return LogInRepositoryImp(remoteService)
+    }
+
+    @Provides
+    fun providesHomeRepo(remoteService: ApiService): HomeRepository {
+        return HomeRepositoryImp(remoteService)
     }
 }
