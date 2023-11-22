@@ -2,7 +2,6 @@
 <resources>
 
     <style name="Theme.Nimble" parent="android:Theme.Material.Light.NoActionBar.TranslucentDecor">
-        <item name="android:statusBarColor">@color/purple_700</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
 </resources>

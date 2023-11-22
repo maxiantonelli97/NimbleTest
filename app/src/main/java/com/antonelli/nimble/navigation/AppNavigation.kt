@@ -5,8 +5,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.antonelli.nimble.screens.HomeScreen
-import com.antonelli.nimble.screens.LogInScreen
 import com.antonelli.nimble.screens.SplashScreen
+import com.antonelli.nimble.ui.login.ui.LogInScreen
 
 @Composable
 fun AppNavigation() {
