@@ -1,4 +1,4 @@
-package com.antonelli.nimble.ui.login.ui
+package com.antonelli.nimble.ui.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

@@ -1,4 +1,4 @@
-package com.antonelli.nimble.screens
+package com.antonelli.nimble.ui.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -13,13 +13,14 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.antonelli.nimble.R
 import com.antonelli.nimble.navigation.AppScreens
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(navController: NavController) {
+fun SplashScreen(navController: NavController, splashViewModel: SplashViewModel = hiltViewModel()) {
     LaunchedEffect(key1 = true) {
         delay(5000)
         navController.popBackStack()
