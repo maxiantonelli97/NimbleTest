@@ -1,40 +1,53 @@
 package com.antonelli.nimble.ui.login
 
 import android.util.Patterns
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.antonelli.nimble.entity.LogInModel
+import com.antonelli.nimble.enums.StatesEnum
 import com.antonelli.nimble.repository.LogInRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LogInViewModel @Inject constructor(private val repository: LogInRepository) : ViewModel() {
 
-    private val _email = MutableLiveData<String>("dev@example.com") // TODO delete hardtext
-    val email: LiveData<String> = _email
+    var email = MutableStateFlow("")
 
-    private val _pass = MutableLiveData<String>("password") // TODO delete hardtext
-    val pass: LiveData<String> = _pass
+    var pass = MutableStateFlow("")
 
-    private val _logInResult = MutableLiveData<Boolean>()
-    val logInResult: LiveData<Boolean> = _logInResult
+    var loginResponse = MutableStateFlow<StatesEnum?>(null)
+
+    var isLoading = MutableStateFlow<Boolean?>(false)
+
+    var fieldsError = MutableStateFlow(false)
 
     fun logIn() {
         if (isValidPassword() && isValidEmail()) {
+            fieldsError.value = false
             viewModelScope.launch {
-                val response = repository.logIn(LogInModel(email = email.value, password = pass.value))
-                _logInResult.value = response.body()?.data?.id != null
+                isLoading.value = true
+                try {
+                    val response = repository.logIn(email.value, pass.value)
+                    if (response) {
+                        isLoading.value = null
+                        loginResponse.value = StatesEnum.SUCCESS
+                    } else {
+                        isLoading.value = null
+                        loginResponse.value = StatesEnum.ERROR
+                    }
+                } catch (e: Exception) {
+                    isLoading.value = null
+                    loginResponse.value = StatesEnum.ERROR
+                }
             }
         } else {
-            _logInResult.value = false
+            fieldsError.value = true
         }
     }
 
-    private fun isValidPassword(): Boolean = (pass.value?.length ?: 0) > 7
+    private fun isValidPassword(): Boolean = pass.value.length > 7
 
-    private fun isValidEmail(): Boolean = Patterns.EMAIL_ADDRESS.matcher(email.value ?: "").matches()
+    private fun isValidEmail(): Boolean = Patterns.EMAIL_ADDRESS.matcher(email.value).matches()
 }

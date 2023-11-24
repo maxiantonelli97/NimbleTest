@@ -1,6 +1,6 @@
 package com.antonelli.nimble.entity
 
-data class LogInResponseModel(
+data class UserModel(
     val id: Int? = null,
     val type: String? = null,
     val attributes: TokenModel? = null
