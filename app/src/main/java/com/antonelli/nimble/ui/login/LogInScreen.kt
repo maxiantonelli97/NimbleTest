@@ -43,11 +43,12 @@ import com.antonelli.nimble.ui.loading.LoadingScreen
 fun LogInScreen(navController: NavController, logInViewModel: LogInViewModel = hiltViewModel()) {
     val isLoading by logInViewModel.isLoading.collectAsState()
     val loginResponse by logInViewModel.loginResponse.collectAsState()
-    val fieldsErrors by logInViewModel.fieldsError.collectAsState()
+    val fieldsError by logInViewModel.fieldsError.collectAsState()
 
-    if (fieldsErrors) {
+    if (fieldsError) {
         val contexto = LocalContext.current
         Toast.makeText(contexto, stringResource(id = R.string.check_values), Toast.LENGTH_LONG).show()
+        logInViewModel.fieldsError.value = false
     }
 
     if (loginResponse != null) {
@@ -91,7 +92,7 @@ fun LogInScreen(navController: NavController, logInViewModel: LogInViewModel = h
             Spacer(modifier = Modifier.size(25.dp))
             PasswordTextField(logInViewModel)
             Spacer(modifier = Modifier.size(25.dp))
-            LogInButtom(!logInViewModel.fieldsError.value) { logInViewModel.logIn() }
+            LogInButtom(fieldsError) { logInViewModel.logIn() }
         }
     }
 }
@@ -138,7 +139,7 @@ fun LogInButtom(enabledP: Boolean, logIn: () -> Unit) {
             enabled = false
             logIn()
         },
-        enabled = enabled,
+        enabled = !enabled,
         shape = RoundedCornerShape(10.dp),
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
         modifier = Modifier.size(300.dp, 50.dp)
