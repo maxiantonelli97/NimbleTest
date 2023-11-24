@@ -29,8 +29,14 @@ class AuthRepositoryImpl @Inject constructor(
             val aux1 = System.currentTimeMillis() / 1000
             val aux2 = preferences.getLong("valid", -1)
             val result = aux2 > aux1
+            if (!result) {
+                setToken(null)
+                setValid(null)
+            }
             result
         } catch (e: Exception) {
+            setToken(null)
+            setValid(null)
             false
         }
     }

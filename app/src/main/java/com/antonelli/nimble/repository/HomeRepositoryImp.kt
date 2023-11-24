@@ -25,7 +25,7 @@ class HomeRepositoryImp @Inject constructor(
                 if (logInRepository.refreshToken()) {
                     getSurveys(params)
                 } else {
-                    ResponseBody(null, false)
+                    ResponseBody(arrayListOf(), false)
                 }
             }
         } catch (e: Exception) {

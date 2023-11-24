@@ -22,20 +22,27 @@ class LogInRepositoryImp @Inject constructor(
             authRepository.setValid(aux)
             true
         } else {
+            authRepository.setToken(null)
+            authRepository.setValid(null)
             false
         }
     }
     override suspend fun refreshToken(): Boolean {
         logInModel.grant_type = "refresh_token"
 
-        val response = apiService.refreshToken(logInModel)
-
-        return if (response.isSuccessful && response.body()?.data != null) {
-            authRepository.setToken(response.body()!!.data!!.attributes?.access_token)
-            val aux = (response.body()!!.data!!.attributes?.expires_in ?: 0.0) + (response.body()!!.data!!.attributes?.created_at ?: 0.0)
-            authRepository.setValid(aux)
-            true
-        } else {
+        return try {
+            val response = apiService.refreshToken(logInModel)
+            if (response.isSuccessful && response.body()?.data != null) {
+                authRepository.setToken(response.body()!!.data!!.attributes?.access_token)
+                val aux = (response.body()!!.data!!.attributes?.expires_in ?: 0.0) + (response.body()!!.data!!.attributes?.created_at ?: 0.0)
+                authRepository.setValid(aux)
+                true
+            } else {
+                authRepository.setToken(null)
+                authRepository.setValid(null)
+                false
+            }
+        } catch (e: Exception) {
             false
         }
     }

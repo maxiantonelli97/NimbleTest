@@ -56,6 +56,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hilt
             StatesEnum.NOAUTH -> {
                 navController.popBackStack()
                 navController.navigate(AppScreens.LogInScreen.route)
+                homeViewModel.responseEnum.value = null
             }
         }
     }

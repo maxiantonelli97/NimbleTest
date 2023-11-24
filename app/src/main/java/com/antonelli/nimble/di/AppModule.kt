@@ -1,6 +1,7 @@
 package com.antonelli.nimble.di
 
 import android.content.Context
+import com.antonelli.nimble.BuildConfig
 import com.antonelli.nimble.api.ApiService
 import com.antonelli.nimble.entity.LogInModel
 import com.antonelli.nimble.repository.AuthRepository
@@ -26,7 +27,7 @@ import javax.inject.Singleton
 class AppModule {
     @Provides
     @Named("BaseUrl")
-    fun provideBaseUrl() = "https://survey-api.nimblehq.co/api/v1/".toHttpUrl()
+    fun provideBaseUrl() = BuildConfig.BASE_URL.toHttpUrl()
 
     @Singleton
     @Provides
