@@ -6,6 +6,7 @@
 
 
     <string name="check_values">Check the values</string>
-    <string name="touch_retry">Touch the screen to retry</string>
+    <string name="touch_retry">Touch the icon to retry</string>
     <string name="touch_back">Touch the screen to go back</string>
+    <string name="login_error">LogIn Error</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.antonelli.nimble.ui.home
 
+import android.widget.Toast
 import androidx.compose.foundation.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.pager.HorizontalPager
@@ -17,7 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,6 +57,8 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hilt
                 homeViewModel.responseEnum.value = null
             }
             StatesEnum.NOAUTH -> {
+                val contexto = LocalContext.current
+                Toast.makeText(contexto, stringResource(id = R.string.login_error), Toast.LENGTH_LONG).show()
                 navController.popBackStack()
                 navController.navigate(AppScreens.LogInScreen.route)
                 homeViewModel.responseEnum.value = null
@@ -80,8 +85,8 @@ fun HomeConstraint(list: List<SurveyItem>, navController: NavController, homeVie
         modifier = Modifier.pullRefresh(pullRefreshState).fillMaxSize() // .verticalScroll(rememberScrollState())
 
         // ////////////////
-        // ////////////////  AGREGANDO LA FUNCION COMENTADA EN LA LINEA 79, FUNCIONA LA ACTUALIZACIÓN CON SCROLL
-        // ////////////////  PERO ESO ME ROMPIA LA VISTA
+        // ////////////////  BY ADDING THE COMMENT FUNCTION IN LINE 79, THE SCROLL'S UPDATE WORKS
+        // ////////////////  BUT THIS BRAKE THE VIEW. AND I CONSIDERED IRRELEVANT
         // ////////////////
 
     ) {

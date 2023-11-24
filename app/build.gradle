@@ -9,6 +9,9 @@ android {
     namespace 'com.antonelli.nimble'
     compileSdk 33
 
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
     defaultConfig {
         applicationId "com.antonelli.nimble"
         minSdk 21
@@ -26,15 +29,15 @@ android {
     buildTypes {
         debug {
             buildConfigField 'String', 'BASE_URL', "\"https://nimble-survey-web-mock.fly.dev/\""
-            buildConfigField 'String', 'SECRET_ID', SECRET_ID_DEBUG
-            buildConfigField 'String', 'CLIENT_ID', CLIENT_ID_DEBUG
+            buildConfigField 'String', 'SECRET_ID', properties.getProperty("SECRET_ID_DEBUG", "")
+            buildConfigField 'String', 'CLIENT_ID', properties.getProperty("CLIENT_ID_DEBUG", "")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
             buildConfigField 'String', 'BASE_URL', "\"https://survey-api.nimblehq.co/api/v1/\""
-            buildConfigField 'String', 'SECRET_ID', SECRET_ID_RELEASE
-            buildConfigField 'String', 'CLIENT_ID', CLIENT_ID_RELEASE
+            buildConfigField 'String', 'SECRET_ID', properties.getProperty("SECRET_ID_RELEASE", "")
+            buildConfigField 'String', 'CLIENT_ID', properties.getProperty("CLIENT_ID_RELEASE", "")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
